@@ -35,7 +35,7 @@ function App() {
     setLoading(true);
     setResult("");
 
-    fetch("http://127.0.0.1:5000/predict", {
+    fetch("VITE_API_URL/predict", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
