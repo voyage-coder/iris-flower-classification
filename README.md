@@ -309,28 +309,6 @@ Virginica        0        1           49
 
 ---
 
-## 🤝 Contributing
-
-We welcome contributions! Here's how to help:
-
-1. **Fork** the repository
-2. **Create** a feature branch (`git checkout -b feature/YourFeature`)
-3. **Commit** your changes (`git commit -m 'Add YourFeature'`)
-4. **Push** to the branch (`git push origin feature/YourFeature`)
-5. **Open** a Pull Request
-
-### Contribution Ideas
-
-- [ ] Add cross-validation
-- [ ] Implement other algorithms (Decision Tree, SVM, Random Forest)
-- [ ] Enhance web UI with data visualization
-- [ ] Add model comparison tools
-- [ ] Create API endpoint
-- [ ] Add unit tests
-- [ ] Implement feature scaling comparison
-
----
-
 ## 📄 License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
