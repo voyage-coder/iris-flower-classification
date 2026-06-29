@@ -35,7 +35,7 @@ function App() {
     setLoading(true);
     setResult("");
 
-    fetch("VITE_API_URL/predict", {
+    fetch(`${import.meta.env.VITE_API_URL}/predict`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
