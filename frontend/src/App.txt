@@ -1,0 +1,66 @@
+import { useEffect, useState } from "react";
+
+// when we run npm run dev - react starts and loads App component - everything inside App() is executed
+
+function App() {
+  // useState("") -> this creates a state variable
+  const [message, setMessage] = useState(""); // creates a variable called message, initially message = "", later message = "Flask backend is working"
+  // initially when message variable created it is empty(it is set to "").
+  // setMessage() is a special function that can change message value
+  // React renders the page -> suppose if we have <p>{message}</p> - react checks the value of message, currently it is "" so the page is will be blank
+
+  // next useEffect() runs
+  // the empty dependency array [] means run this code only once, after the page has loaded
+  // useEffect(() => {
+    // fetch("http://127.0.0.1:5000/api/test") // react now sends an http request like "Hello flask, can you send me the data from /api/test?" 
+    // this request travels to the flask server
+    // flask receives the request and executes test() function in app.py
+    // flask returns JSON to react (status and message)
+      // .then((response) => response.json()) // this variable response is not the JSON yet, It's the complete HTTP response
+      // response is now like a package which have status code, headers, body and JSON is inside the body
+      // response.json() opens package and extracts the JSON
+      // so now react has JSON in data variable
+      // .then((data) => {
+        // setMessage(data.message);
+        // now data.message equals to message in JSON sent by flask ("Flask backend is working!")
+        // then upper react state variable meassage is set to data.message(flask message)
+      // });
+  // }, []);
+  // React automatically re-renders, after state change(message)
+  // now the page dispalys "Flask backend is working" not blank
+  // we didn't tell react to redraw page, setMessage() did that automatically
+
+  useEffect(() => {
+    fetch("http://127.0.0.1:5000/predict", { // give me data and i am sending you some data
+      method: "POST", // tells browser to send a post request, without this fetch() uses get by default
+
+      headers: { // the server reads this label knows how to interpret the data
+        "Content-Type": "application/json", // without this flask may not know the body conains JSON
+      },
+
+      body: JSON.stringify({ // this is the actual data we are sending
+        // this is a JS obj but HTTP requests send text not JS obj
+        // so we use JSON.stringify() - converts JS obj into JSON string
+        // after conversion fo this it looks like "{\"name\":\"Navya\",\"age\":20}"
+        // the JSON text is what that travels across the networks
+        sepal_length: 5.1,
+        sepal_width: 3.5,
+        petal_length: 1.4,
+        petal_width: 0.2,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setMessage(data.message);
+      });
+  }, []);
+
+  return (
+    <div>
+      <h1>Iris Flower Classifier</h1>
+      <p>{message}</p>
+    </div>
+  );
+}
+
+export default App;
