@@ -18,7 +18,6 @@ A beginner-friendly machine learning project that classifies Iris flowers using 
 - [Installation](#installation)
 - [Usage](#usage)
 - [Model Performance](#model-performance)
-- [Contributing](#contributing)
 - [License](#license)
 
 ---
@@ -33,7 +32,7 @@ This project demonstrates the fundamentals of machine learning by building a cla
 |---------|-------------|
 | **Algorithm** | K-Nearest Neighbors (KNN) |
 | **Dataset** | Iris Dataset (150 samples) |
-| **Classes** | 3 Iris species (Setosa, Versicolor, Virginica) |
+| **Targets** | 3 Iris species (Setosa, Versicolor, Virginica) |
 | **Features** | 4 measurements (sepal length, sepal width, petal length, petal width) |
 | **Language** | Python with Web Interface (HTML/CSS/JS) |
 | **Library** | Scikit-learn |
@@ -69,37 +68,52 @@ This project demonstrates the fundamentals of machine learning by building a cla
 ### KNN Algorithm Flowchart
 
 ```
-┌─────────────────────────────────────────┐
-│   New Flower Measurement Received       │
-└────────────────┬────────────────────────┘
-                 │
-                 ▼
-┌─────────────────────────────────────────┐
-│   Calculate Distance to All Training    │
-│   Samples (Euclidean Distance)          │
-└────────────────┬────────────────────────┘
-                 │
-                 ▼
-┌─────────────────────────────────────────┐
-│   Find K Nearest Neighbors              │
-│   (e.g., K=3, K=5, K=7)                │
-└────────────────┬────────────────────────┘
-                 │
-                 ▼
-┌─────────────────────────────────────────┐
-│   Count Class Labels of K Neighbors     │
-└────────────────┬────────────────────────┘
-                 │
-                 ▼
-┌─────────────────────────────────────────┐
-│   Return Most Frequent Class            │
-│   (Majority Vote)                       │
-└────────────────┬────────────────────────┘
-                 │
-                 ▼
-┌─────────────────────────────────────────┐
-│   Predicted Iris Species                │
-└─────────────────────────────────────────┘
+                📌 K-NEAREST NEIGHBORS (KNN) FLOWCHART
+
+┌──────────────────────────────┐
+│   Start                      │
+└──────────────┬───────────────┘
+               ↓
+┌──────────────────────────────┐
+│   Load Training Data         │
+│   (Features + Labels)        │
+└──────────────┬───────────────┘
+               ↓
+┌──────────────────────────────┐
+│   Choose value of K          │
+│   (e.g., K = 3)              │
+└──────────────┬───────────────┘
+               ↓
+┌──────────────────────────────┐
+│   Input New Data Point       │
+│   (Flower measurements)      │
+└──────────────┬───────────────┘
+               ↓
+┌──────────────────────────────┐
+│   Calculate Distance         │
+│   (Euclidean Distance)       │
+│   to all training points     │
+└──────────────┬───────────────┘
+               ↓
+┌──────────────────────────────┐
+│   Find K Nearest Neighbors   │
+│   (Smallest distances)       │
+└──────────────┬───────────────┘
+               ↓
+┌──────────────────────────────┐
+│   Majority Voting            │
+│   (Most common class)        │
+└──────────────┬───────────────┘
+               ↓
+┌──────────────────────────────┐
+│   Predict Class Label        │
+│   (Setosa / Versicolor /     │
+│    Virginica)                │
+└──────────────┬───────────────┘
+               ↓
+┌──────────────────────────────┐
+│   End                        │
+└──────────────────────────────┘
 ```
 
 ### KNN Parameters Comparison
@@ -117,28 +131,34 @@ This project demonstrates the fundamentals of machine learning by building a cla
 ## 📁 Project Structure
 
 ```
-iris-flower-classification/
+Iris-flower-classification/
 │
-├── 📄 README.md                    # Project documentation
-├── 📄 requirements.txt             # Python dependencies
-├── 📄 .gitignore                   # Git ignore file
+├── backend/
+│   ├── app.py                  # Flask backend API
+│   ├── model.pkl              # Trained ML model (KNN)
+│   ├── requirements.txt       # Python dependencies
+│   ├── training_model.py      # (optional) model training script
 │
-├── 📁 data/
-│   └── iris.csv                    # Iris dataset
+├── frontend/
+│   ├── public/
+│   │   ├── index.html
+│   │
+│   ├── src/
+│   │   ├── App.jsx           # Main React component
+│   │   ├── main.jsx
+│   │   ├── index.css
+│   │
+│   │   ├── assets/
+│   │   │   ├── setosa.jpg
+│   │   │   ├── versicolor.jpg
+│   │   │   ├── virginica.jpg
+│   │
+│   ├── package.json
+│   ├── vite.config.js
+│   ├── .env                  # API URL (VITE_API_URL)
 │
-├── 📁 src/
-│   ├── __init__.py
-│   ├── model.py                    # KNN model implementation
-│   ├── preprocessor.py             # Data preprocessing
-│   └── utils.py                    # Utility functions
-│
-├── 📁 notebooks/
-│   └── iris_analysis.ipynb         # Exploratory data analysis
-│
-└── 📁 web/
-    ├── index.html                  # Web interface
-    ├── style.css                   # Styling
-    └── script.js                   # Frontend logic
+├── README.md
+└── .gitignore
 ```
 
 ---
@@ -151,7 +171,7 @@ iris-flower-classification/
 |-------------|---------|
 | Python | 3.7+ |
 | pip | Latest |
-| Modern Web Browser | Chrome, Firefox, Safari, Edge |
+| Modern Web Browser | Chrome, Firefox, Safari, Edge, Brave|
 
 ### Steps
 
@@ -191,7 +211,7 @@ from src.preprocessor import load_iris_data
 X_train, X_test, y_train, y_test = load_iris_data(test_size=0.2)
 
 # Train KNN model
-model = IrisKNN(k=5)
+model = KNeighborClassifier()
 model.fit(X_train, y_train)
 
 # Make predictions
@@ -211,8 +231,7 @@ print(f"Predicted species: {prediction}")
    - Sepal Width (cm)
    - Petal Length (cm)
    - Petal Width (cm)
-3. Click "Classify" to get predictions
-4. View confidence scores and visualizations
+3. Click "Predict" to get predictions
 
 ---
 
@@ -248,39 +267,43 @@ Virginica        0        1           49
 ## 🔄 Model Training Pipeline
 
 ```
+                🌸 IRIS MODEL TRAINING PIPELINE
+
 ┌──────────────────────────────┐
 │   Load Iris Dataset          │
-│   (150 samples)              │
-└──────────┬───────────────────┘
-           │
-           ▼
+│   (sklearn.datasets)         │
+└──────────────┬───────────────┘
+               ↓
 ┌──────────────────────────────┐
-│   Data Preprocessing         │
-│   • Normalize features       │
-│   • Remove outliers (opt)    │
-└──────────┬───────────────────┘
-           │
-           ▼
+│   Split Data                 │
+│   Train / Test Split        │
+│   (80% / 20%)               │
+└──────────────┬───────────────┘
+               ↓
 ┌──────────────────────────────┐
-│   Train/Test Split          │
-│   80% train, 20% test       │
-└──────────┬───────────────────┘
-           │
-           ▼
+│   Train ML Model            │
+│   K-Nearest Neighbors (KNN) │
+│   model.fit(X_train, y_train)│
+└──────────────┬───────────────┘
+               ↓
 ┌──────────────────────────────┐
-│   Train KNN Model            │
-│   K=5 (default)              │
-└──────────┬───────────────────┘
-           │
-           ▼
+│   Make Predictions          │
+│   model.predict(X_test)     │
+└──────────────┬───────────────┘
+               ↓
 ┌──────────────────────────────┐
-│   Evaluate Model             │
-│   Calculate metrics          │
-└──────────┬───────────────────┘
-           │
-           ▼
+│   Evaluate Model            │
+│   Accuracy Score + Report   │
+└──────────────┬───────────────┘
+               ↓
 ┌──────────────────────────────┐
-│   Ready for Predictions      │
+│   Save Model                │
+│   model.pkl (pickle file)   │
+└──────────────┬───────────────┘
+               ↓
+┌──────────────────────────────┐
+│   Model Ready for API       │
+│   Flask Backend Uses It     │
 └──────────────────────────────┘
 ```
 
